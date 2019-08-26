@@ -1,19 +1,25 @@
+//引入组件类
 import React, {Component} from 'react';
 import {withRouter} from "react-router-dom";
+//引入antDesign的组件
 import { Form, Input, Button, message } from 'antd';
+//引入字体图标
 import IconFont from '../../components/IconFont';
+//引入私有样式表
 import styles from './index.module.css';
 
 class Login extends Component{
+    //渲染DOM
     render(){
         const { getFieldDecorator } = this.props.form;
         return (
             <div className={styles.loginWrap}>
                 <div className={styles.msLogin}>
                     <div className={styles.msTitle}>后台管理系统</div>
-                    <Form className={styles.msContent}>
+                    <Form className={styles.msContent}>                       
                         <Form.Item>
                             {
+                                //表单控件
                                 getFieldDecorator('username', {
                                     initialValue: 'admin',
                                     rules: [{ required: true, message: '请输入用户名' }],
@@ -41,11 +47,13 @@ class Login extends Component{
             </div>
         )
     }
+    //提交
     onSubmit(e){
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 localStorage.setItem('ms_username', values.username);
+                //路由
                 this.props.history.push('/main/dashboard');
             } else {
                 message.error('登录失败!');

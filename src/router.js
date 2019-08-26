@@ -15,7 +15,10 @@ const Permission = lazy(() => import('./pages/Permission/index'));
 const Locale = lazy(() => import('./pages/Locale/index'));
 
 export const AppRoutes = () => {
+    /*一级路由 */
     return (
+        /*Suspense组件中的lazy组件未加载完全时，就走fallback的内容*/
+        /*Switch组件匹配到一个路由就终止匹配（只加载一个路由组件） */
         <Router>
             <Suspense fallback={<div></div>}>
                 <Switch>
@@ -30,6 +33,7 @@ export const AppRoutes = () => {
     )
 }
 
+/*二级路由 */
 export const MainRoutes = () => {
     return (
         <Suspense fallback={<div></div>}>
@@ -50,10 +54,12 @@ export const MainRoutes = () => {
     )
 }
 
-// 路由管理员权限校验
+// 路由管理员权限校验（组件形式）
+/*rest代表其余的组件属性 */
 const AdminRoute = ({ component: Component, ...rest }) => {
     return (
         <Route
+          /** 展开组件属性*/
             {...rest}
             render={props =>
                 // checkIsAdmin 方法里做了权限校验
@@ -63,7 +69,7 @@ const AdminRoute = ({ component: Component, ...rest }) => {
     );
 }
 
-// 路由登录鉴权
+// 路由登录鉴权（组件形式）
 const AuthRoute = ({ component: Component, ...rest }) => {
     return (
         <Route
