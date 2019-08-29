@@ -58,5 +58,10 @@ export default [
                 title: '404页面'
             }
         ]
+    },
+    {
+        icon: 'anticon-lx-global',
+        index: '/main/mzManage',
+        title: '媒资管理'
     }
 ]

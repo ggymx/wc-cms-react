@@ -13,6 +13,7 @@ const Charts = lazy(() => import('./pages/Charts/index'));
 const ErrorRoute = lazy(() => import('./pages/Error/index'));
 const Permission = lazy(() => import('./pages/Permission/index'));
 const Locale = lazy(() => import('./pages/Locale/index'));
+const MzManage=lazy(()=>import('./pages/MzManage/index'));
 
 export const AppRoutes = () => {
     /*一级路由 */
@@ -48,6 +49,7 @@ export const MainRoutes = () => {
                 <Route exact path="/main/charts" component={Charts} />
                 <AdminRoute exact path="/main/permission" component={Permission}/>
                 <Route exact path="/main/i18n" component={Locale} />
+                <Route exact path="/main/mzManage" component={MzManage} />
                 <Route component={ErrorRoute} />
             </Switch>
         </Suspense>
