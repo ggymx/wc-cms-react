@@ -14,7 +14,10 @@ const ErrorRoute = lazy(() => import('./pages/Error/index'));
 const Permission = lazy(() => import('./pages/Permission/index'));
 const Locale = lazy(() => import('./pages/Locale/index'));
 const MzManage=lazy(()=>import('./pages/MzManage/index'));
-
+const InjectRecord=lazy(()=>import('./pages/InjectRecord/index'));
+const Account=lazy(()=>import('./pages/AccountManage/index'));
+const CP=lazy(()=>import('./pages/CPManage/index'));
+const Service=lazy(()=>import('./pages/ServiceManage/index'));
 export const AppRoutes = () => {
     /*一级路由 */
     return (
@@ -37,6 +40,7 @@ export const AppRoutes = () => {
 /*二级路由 */
 export const MainRoutes = () => {
     return (
+        // {/**exact为严格匹配 */}
         <Suspense fallback={<div></div>}>
             <Switch>
                 <Redirect exact from='/main' to='/main/dashboard' />
@@ -50,6 +54,10 @@ export const MainRoutes = () => {
                 <AdminRoute exact path="/main/permission" component={Permission}/>
                 <Route exact path="/main/i18n" component={Locale} />
                 <Route exact path="/main/mzManage" component={MzManage} />
+                <Route exact path="/main/inject" component={InjectRecord} />
+                <Route exact path="/main/account" component={Account}/>
+                <Route exact path="/main/cp" component={CP}/>
+                <Route exact path="/main/service" component={Service}/>
                 <Route component={ErrorRoute} />
             </Switch>
         </Suspense>

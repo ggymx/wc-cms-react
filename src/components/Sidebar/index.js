@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
 import { Menu } from 'antd';
-import menuList from './menuList'
+import menuList from './menuList';
 import IconFont from '../IconFont';
 import './index.css';
 

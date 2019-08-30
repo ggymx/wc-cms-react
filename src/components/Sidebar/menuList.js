@@ -63,5 +63,29 @@ export default [
         icon: 'anticon-lx-global',
         index: '/main/mzManage',
         title: '媒资管理'
-    }
+    },
+    {
+        icon: 'anticon-lx-rank',
+        index: '/main/inject',
+        title: '注入记录'
+    },
+    {
+        icon: 'anticon-lx-warn',
+        index: '888',
+        title: '综合管理',
+        subs: [
+            {
+                index: '/main/account',
+                title: '账号管理'
+            },
+            {
+                index: '/main/cp',
+                title: 'CP管理'
+            },
+            {
+                index: '/main/service',
+                title: '业务元数据管理'
+            }
+        ]
+    },
 ]

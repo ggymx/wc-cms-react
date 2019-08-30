@@ -25,7 +25,17 @@ class Main extends Component{
                         <Sidebar />
                     </Layout.Sider>
                     <Layout.Content className={styles.mainRight}>
-                        <MainRoutes />
+                        <div className={styles.tags}>
+                            <ul>
+                                <li>媒资管理</li>
+                                <li>注入记录</li>
+                                <li>注入记录</li>
+                            </ul>
+                        </div>
+                        <div className={styles.content}>
+                          <MainRoutes />
+                        </div>
+                 
                     </Layout.Content>
                 </Layout>
             </div>
