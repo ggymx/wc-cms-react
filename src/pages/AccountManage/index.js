@@ -3,79 +3,104 @@ import {Select,Input,DatePicker,Button} from 'antd';
 import {Table,Tag,Divider} from 'antd';
 import {Pagination} from 'antd';
 import styles from './index.module.css';
+import axios from '../../request';
 const {Option}=Select;
-const columns=[
-    { 
-        title:'姓名',
-        dataIndex:'name',
-        key:'name',
-        render:text=><a>{text}</a>
-    },
-    {
-        title:'年龄',
-        dataIndex:'age',
-        key:'age'
-    },
-    {
-        title:'地址',
-        dataIndex:'address',
-        key:'address'
-    },
-    {
-        title:'标签',
-        dataIndex:'tags',
-        key:'tags',
-        render: tags=>(<span>
-            {
-                tags.map(tag=>{
-                    let color=tag==='loser'?'volcano':(tag.length>5?'geekblue':'green');
-                    return (
-                        <Tag color={color} key={tag}>{tag.toUpperCase()}</Tag>
-                    )
-                })
-            }
-        </span>)
-    },
-    {
-        title:'操作',
-        key:'action',
-        render:(text,record)=>(
-            <span>
-                <a>Invite {record.name}</a>
-                <Divider type='vertical'/>
-                <a>删除</a>
-            </span>
-        )
-    }
-]
-const data=[
-    {
-        key:'1',
-        name:'孙达',
-        age:28,
-        address:'张江狂梦科技',
-        tags:['hashiqi','machu']
-    },
-    {
-        key:'2',
-        name:'李旭明',
-        age:28,
-        address:'张江狂梦科技',
-        tags:['hashiqi','machu']
-    }
-]
+// const columns=[
+//     { 
+//         title:'姓名',
+//         dataIndex:'name',
+//         key:'name',
+//         render:text=><a>{text}</a>
+//     },
+//     {
+//         title:'年龄',
+//         dataIndex:'age',
+//         key:'age'
+//     },
+//     {
+//         title:'地址',
+//         dataIndex:'address',
+//         key:'address'
+//     },
+//     {
+//         title:'标签',
+//         dataIndex:'tags',
+//         key:'tags',
+//         render: tags=>(<span>
+//             {
+//                 tags.map(tag=>{
+//                     let color=tag==='loser'?'volcano':(tag.length>5?'geekblue':'green');
+//                     return (
+//                         <Tag color={color} key={tag}>{tag.toUpperCase()}</Tag>
+//                     )
+//                 })
+//             }
+//         </span>)
+//     },
+//     {
+//         title:'操作',
+//         key:'action',
+//         render:(text,record)=>(
+//             <span>
+//                 <a>Invite {record.name}</a>
+//                 <Divider type='vertical'/>
+//                 <a>删除</a>
+//             </span>
+//         )
+//     }
+// ]
+// const data=[
+//     {
+//         key:'1',
+//         name:'孙达',
+//         age:28,
+//         address:'张江狂梦科技',
+//         tags:['hashiqi','machu']
+//     },
+//     {
+//         key:'2',
+//         name:'李旭明',
+//         age:28,
+//         address:'张江狂梦科技',
+//         tags:['hashiqi','machu']
+//     }
+// ]
+let data,columns;
 class AccountManage extends Component{ 
-     state={
-         message:'您好',
-         columns:columns,
-         data:data
+    state={
+        message:'您好',
+        columns:columns,
+        data:data
+    }
+     componentWillMount(){
+       axios.get('http://rap2api.taobao.org/app/mock/225049/acManage',{
+           params:{
+               cursor:1
+           }
+       }).then(res=>{
+        console.log('res----------',res);
+        data=res.acArr.map(item=>({...item,key:item.id}));
+        columns=res.acTree.map(({prop,label})=>({
+            title:label,
+            dataIndex:prop,
+            key:prop
+        }));
+        this.setState(
+            {
+                data,
+                columns
+            }
+        )
+         
+       }).catch(err=>{
+
+       });
      }
-  
+     
      render(){
        
          return(
             <div className={styles.account}>
-                测试测试测试
                <section>
                <span className={styles.item}>所属公司：
                <Select showSearch className={styles.inputModule}

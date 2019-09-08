@@ -7,9 +7,13 @@ import { Form, Input, Button, message } from 'antd';
 import IconFont from '../../components/IconFont';
 //引入私有样式表
 import styles from './index.module.css';
-
+import axios from '../../request';
 class Login extends Component{
     //渲染DOM
+    constructor(props){
+        super(props);
+        // this.onSubmit=this.onSubmit.bind(this);
+    }
     render(){
         const { getFieldDecorator } = this.props.form;
         return (
@@ -52,9 +56,20 @@ class Login extends Component{
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                console.log('登录数据----',values);
                 localStorage.setItem('ms_username', values.username);
-                //路由
-                this.props.history.push('/main/dashboard');
+                axios.post('http://rap2api.taobao.org/app/mock/225049/login',{
+                  username:values.username,
+                  password:values.password
+                }).then((res)=>{
+                    console.log('登录返回的数据-----',res);
+                    message.success('登录成功！');
+                    res.msg==='ok' && this.props.history.push('/main/dashboard');
+                    // this.props.history.push('/main/dashboard');
+                }).catch((err)=>{
+                    console.log('失败----',err);
+                });          //路由
+               
             } else {
                 message.error('登录失败!');
                 return false;

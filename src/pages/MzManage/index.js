@@ -3,76 +3,106 @@ import {Select,Input,DatePicker,Button} from 'antd';
 import {Table,Tag,Divider} from 'antd';
 import {Pagination} from 'antd';
 import styles from './index.module.css';
+import axios from '../../request';
 const {Option}=Select;
-const columns=[
-    { 
-        title:'姓名',
-        dataIndex:'name',
-        key:'name',
-        render:text=><a>{text}</a>
-    },
-    {
-        title:'年龄',
-        dataIndex:'age',
-        key:'age'
-    },
-    {
-        title:'地址',
-        dataIndex:'address',
-        key:'address'
-    },
-    {
-        title:'标签',
-        dataIndex:'tags',
-        key:'tags',
-        render: tags=>(<span>
-            {
-                tags.map(tag=>{
-                    let color=tag==='loser'?'volcano':(tag.length>5?'geekblue':'green');
-                    return (
-                        <Tag color={color} key={tag}>{tag.toUpperCase()}</Tag>
-                    )
-                })
-            }
-        </span>)
-    },
-    {
-        title:'操作',
-        key:'action',
-        render:(text,record)=>(
-            <span>
-                <a>Invite {record.name}</a>
-                <Divider type='vertical'/>
-                <a>删除</a>
-            </span>
-        )
-    }
-]
-const data=[
-    {
-        key:'1',
-        name:'孙达',
-        age:28,
-        address:'张江狂梦科技',
-        tags:['hashiqi','machu']
-    },
-    {
-        key:'2',
-        name:'李旭明',
-        age:28,
-        address:'张江狂梦科技',
-        tags:['hashiqi','machu']
-    }
-]
+//  let columns=[
+//     { 
+//         title:'姓名',
+//         dataIndex:'name',
+//         key:'name',
+//         render:text=><a>{text}</a>
+//     },
+//     {
+//         title:'年龄',
+//         dataIndex:'age',
+//         key:'age'
+//     },
+//     {
+//         title:'地址',
+//         dataIndex:'address',
+//         key:'address'
+//     },
+//     {
+//         title:'标签',
+//         dataIndex:'tags',
+//         key:'tags',
+//         render: tags=>(<span>
+//             {
+//                 tags.map(tag=>{
+//                     let color=tag==='loser'?'volcano':(tag.length>5?'geekblue':'green');
+//                     return (
+//                         <Tag color={color} key={tag}>{tag.toUpperCase()}</Tag>
+//                     )
+//                 })
+//             }
+//         </span>)
+//     },
+//     {
+//         title:'操作',
+//         key:'action',
+//         render:(text,record)=>(
+//             <span>
+//                 <a>Invite {record.name}</a>
+//                 <Divider type='vertical'/>
+//                 <a>删除</a>
+//             </span>
+//         )
+//     }
+// ]
+// let data=[
+//     {
+//         key:'1',
+//         name:'孙达',
+//         age:28,
+//         address:'张江狂梦科技',
+//         tags:['hashiqi','machu']
+//     },
+//     {
+//         key:'2',
+//         name:'李旭明',
+//         age:28,
+//         address:'张江狂梦科技',
+//         tags:['hashiqi','machu']
+//     }
+// ]
+let data,columns;
 class MzManage extends Component{ 
-     state={
-         message:'您好',
-         columns:columns,
-         data:data
-     }
-  
-     render(){
+     componentWillMount(){
+         console.log('组件将被挂载-----');  
+         axios.get('http://rap2api.taobao.org/app/mock/225049/mzManage',{
+            params:{
+                cursor:1
+            }
+        }).then(res=>{
+            console.log('成功',res);  
+             data=res.mzArr.map(item=>({...item,key:item.ID}));
+             columns=res.mzTree.map(({prop,label})=>({  
+                 title:label,
+                 dataIndex:prop,
+                 key:prop
+                 }));
+             //接收到数据时重新渲染
+             this.setState({
+                 data,
+                 columns
+             });
+            console.log('data-------',data);
+            console.log('columns-----',columns);
+        }).catch(err=>{
+            console.log('异常信息----',err);
+        });
        
+     }
+     constructor(props) {
+         super(props);
+         this.state={
+            message:'您好',
+            columns:columns,
+            data:data
+        }
+     }
+     
+     render(){
          return(
             <div className={styles.mzManage}>
                <section>
